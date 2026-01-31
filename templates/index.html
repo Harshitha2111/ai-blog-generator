@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <title>AI Blog Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        max-width: 900px;
+      }
+      label {
+        font-weight: bold;
+        margin-top: 15px;
+        display: block;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+      }
+      button {
+        margin-top: 20px;
+        padding: 12px 24px;
+        font-size: 16px;
+      }
+      .output {
+        margin-top: 40px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI Blog Generator</h1>
+    <p>Enter a topic to generate a blog!</p>
+
+    <form method="POST">
+      <label>Blog Topic</label>
+      <input
+        type="text"
+        name="topic"
+        placeholder="Impact of AI in Healthcare"
+        required
+      />
+
+      <label>Brief Description / Purpose</label>
+      <textarea
+        name="purpose"
+        placeholder="Explain how AI is transforming healthcare and why it matters"
+      ></textarea>
+
+      <label>Target Audience</label>
+      <input
+        type="text"
+        name="audience"
+        placeholder="Medical students, startups, beginners"
+      />
+
+      <label>Tone</label>
+      <select name="tone">
+        <option>Professional</option>
+        <option>Conversational</option>
+        <option>Educational</option>
+        <option>Technical</option>
+      </select>
+
+      <label>Blog Length</label>
+      <select name="length">
+        <option value="short">Short</option>
+        <option value="medium" selected>Medium</option>
+        <option value="long">Long</option>
+      </select>
+
+      <label>SEO Keywords (comma separated)</label>
+      <input
+        type="text"
+        name="keywords"
+        placeholder="AI, healthcare, automation"
+      />
+
+      <button type="submit">Generate Blog</button>
+    </form>
+
+    {% if blog %}
+    <div class="output">
+      <h2>Generated Blog</h2>
+      {{ blog }}
+    </div>
+    {% endif %}
+  </body>
+</html>
