@@ -113,7 +113,8 @@ AI-BLOG-GENERATOR/
 ├── templates/
 │   └── index.html        # Main UI and blog preview template
 │
-├── app.py                # Flask backend entry point
+├── app.py              # Flask backend entry point
+├── requirements.txt      # Python dependencies
 ├── .env                  # Environment variables
 ├── README.md             # Project documentation
 └── .gitignore
