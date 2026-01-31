@@ -10,8 +10,7 @@ print("🔥 RUNNING THIS app.py FILE 🔥")
 app = Flask(__name__)
 
 # Configure Gemini
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
+genai.api_key = os.environ.get("GOOGLE_API_KEY")
 # ✅ USE A KNOWN WORKING MODEL
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
