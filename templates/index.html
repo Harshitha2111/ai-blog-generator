@@ -12,53 +12,51 @@
       body {
         margin: 0;
         min-height: 100vh;
-        font-family: "Segoe UI", Tahoma, sans-serif;
-        background: linear-gradient(135deg, #6b73ff, #7f53ac);
+        font-family: "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top, #0f172a, #020617);
         display: flex;
         justify-content: center;
         align-items: center;
+        color: #e5e7eb;
       }
 
       .container {
         width: 100%;
-        max-width: 520px;
-        background: #ffffff;
-        border-radius: 18px;
-        padding: 40px 35px;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        max-width: 540px;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(16px);
+        border-radius: 20px;
+        padding: 36px;
+        box-shadow: 0 0 0 1px rgba(99,102,241,0.3),
+                    0 30px 80px rgba(0,0,0,0.8);
       }
 
       h1 {
         text-align: center;
         font-size: 30px;
-        font-weight: 700;
-        color: #667eea;
-        margin-bottom: 35px;
-      }
-
-      h1::before {
-        content: "🎨 ";
+        font-weight: 800;
+        margin-bottom: 26px;
+        background: linear-gradient(90deg, #818cf8, #22d3ee);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       form {
-        background: #fafafa;
-        padding: 30px;
-        border-radius: 14px;
-      }
-
-      label {
-        display: none;
+        display: grid;
+        gap: 14px;
       }
 
       input,
       textarea,
       select {
         width: 100%;
-        padding: 14px 16px;
-        margin-bottom: 18px;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        font-size: 15px;
+        padding: 14px 15px;
+        border-radius: 12px;
+        border: 1px solid rgba(148,163,184,0.25);
+        background: rgba(2,6,23,0.6);
+        color: #e5e7eb;
+        font-size: 14px;
+        transition: 0.25s ease;
       }
 
       textarea {
@@ -70,38 +68,49 @@
       textarea:focus,
       select:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        border-color: #22d3ee;
+        box-shadow: 0 0 0 3px rgba(34,211,238,0.35),
+                    0 0 20px rgba(34,211,238,0.3);
+      }
+
+      ::placeholder {
+        color: #94a3b8;
       }
 
       select {
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23667eea' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%2322d3ee' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 14px center;
         background-size: 18px;
       }
 
       button {
-        width: 100%;
-        padding: 15px;
+        margin-top: 6px;
+        padding: 14px;
+        border-radius: 14px;
         border: none;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
         cursor: pointer;
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #020617;
+        background: linear-gradient(90deg, #22d3ee, #818cf8);
+        transition: 0.3s ease;
       }
 
-      /* OUTPUT — hidden when empty */
+      button:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 0 25px rgba(34,211,238,0.6);
+      }
+
       .output {
         display: none;
-        margin-top: 30px;
-        background: #ffffff;
-        padding: 25px;
+        margin-top: 24px;
+        background: rgba(2,6,23,0.7);
+        padding: 22px;
         border-radius: 14px;
-        line-height: 1.7;
+        line-height: 1.75;
+        border: 1px solid rgba(34,211,238,0.25);
       }
 
       .output.show {
@@ -109,8 +118,10 @@
       }
 
       .output h2 {
-        color: #667eea;
         margin-top: 0;
+        background: linear-gradient(90deg, #818cf8, #22d3ee);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
     </style>
   </head>
@@ -138,10 +149,10 @@
 
         <input type="text" name="keywords" placeholder="Keywords (optional)" />
 
-        <button type="submit">✨ Generate Blog</button>
+        <button type="submit">⚡ Generate Blog</button>
       </form>
 
-      <!-- Output container (backend fills this) -->
+      <!-- Output -->
       <div class="output {% if blog %}show{% endif %}">
         <h2>Generated Blog</h2>
         {{ blog }}
