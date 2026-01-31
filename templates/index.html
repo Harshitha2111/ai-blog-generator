@@ -1,92 +1,151 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title>AI Blog Generator</title>
+
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: Arial, sans-serif;
-        margin: 40px;
-        max-width: 900px;
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: linear-gradient(135deg, #6b73ff, #7f53ac);
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
+
+      .container {
+        width: 100%;
+        max-width: 520px;
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 40px 35px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 35px;
+      }
+
+      h1::before {
+        content: "🎨 ";
+      }
+
+      form {
+        background: #fafafa;
+        padding: 30px;
+        border-radius: 14px;
+      }
+
       label {
-        font-weight: bold;
-        margin-top: 15px;
-        display: block;
+        display: none;
       }
+
       input,
       textarea,
       select {
         width: 100%;
-        padding: 10px;
-        margin-top: 5px;
+        padding: 14px 16px;
+        margin-bottom: 18px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        font-size: 15px;
       }
+
+      textarea {
+        min-height: 100px;
+        resize: none;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+      }
+
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%23667eea' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 18px;
+      }
+
       button {
-        margin-top: 20px;
-        padding: 12px 24px;
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
         font-size: 16px;
+        font-weight: 600;
+        color: #ffffff;
+        cursor: pointer;
+        background: linear-gradient(135deg, #667eea, #764ba2);
       }
+
+      /* OUTPUT — hidden when empty */
       .output {
-        margin-top: 40px;
-        white-space: pre-wrap;
+        display: none;
+        margin-top: 30px;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 14px;
+        line-height: 1.7;
+      }
+
+      .output.show {
+        display: block;
+      }
+
+      .output h2 {
+        color: #667eea;
+        margin-top: 0;
       }
     </style>
   </head>
+
   <body>
-    <h1>AI Blog Generator</h1>
-    <p>Enter a topic to generate a blog!</p>
+    <div class="container">
+      <h1>AI Blog Generator</h1>
 
-    <form method="POST">
-      <label>Blog Topic</label>
-      <input
-        type="text"
-        name="topic"
-        placeholder="Impact of AI in Healthcare"
-        required
-      />
+      <form method="POST">
+        <input type="text" name="topic" placeholder="Blog Topic" required />
+        <textarea name="purpose" placeholder="Blog Description"></textarea>
+        <input type="text" name="audience" placeholder="Target Audience" />
 
-      <label>Brief Description / Purpose</label>
-      <textarea
-        name="purpose"
-        placeholder="Explain how AI is transforming healthcare and why it matters"
-      ></textarea>
+        <select name="tone">
+          <option>Formal</option>
+          <option>Professional</option>
+          <option>Conversational</option>
+        </select>
 
-      <label>Target Audience</label>
-      <input
-        type="text"
-        name="audience"
-        placeholder="Medical students, startups, beginners"
-      />
+        <select name="length">
+          <option>Short</option>
+          <option selected>Medium</option>
+          <option>Long</option>
+        </select>
 
-      <label>Tone</label>
-      <select name="tone">
-        <option>Professional</option>
-        <option>Conversational</option>
-        <option>Educational</option>
-        <option>Technical</option>
-      </select>
+        <input type="text" name="keywords" placeholder="Keywords (optional)" />
 
-      <label>Blog Length</label>
-      <select name="length">
-        <option value="short">Short</option>
-        <option value="medium" selected>Medium</option>
-        <option value="long">Long</option>
-      </select>
+        <button type="submit">✨ Generate Blog</button>
+      </form>
 
-      <label>SEO Keywords (comma separated)</label>
-      <input
-        type="text"
-        name="keywords"
-        placeholder="AI, healthcare, automation"
-      />
-
-      <button type="submit">Generate Blog</button>
-    </form>
-
-    {% if blog %}
-    <div class="output">
-      <h2>Generated Blog</h2>
-      {{ blog }}
+      <!-- Output container (backend fills this) -->
+      <div class="output {% if blog %}show{% endif %}">
+        <h2>Generated Blog</h2>
+        {{ blog }}
+      </div>
     </div>
-    {% endif %}
   </body>
 </html>
