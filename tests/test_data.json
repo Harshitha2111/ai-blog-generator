@@ -1,0 +1,17 @@
+{
+  "mental_health_short": {
+    "topic": "Mental Health",
+    "keywords": "stress, wellbeing",
+    "length": "short"
+  },
+  "mental_health_medium": {
+    "topic": "Mental Health Awareness",
+    "keywords": "stress management, anxiety, students, wellbeing",
+    "length": "medium"
+  },
+  "robotics_long": {
+    "topic": "Robotics in Modern Technology",
+    "keywords": "automation, artificial intelligence, industry, future, innovation",
+    "length": "long"
+  }
+}

@@ -155,9 +155,9 @@
       <!-- Output -->
       <div class="output {% if blog %}show{% endif %}">
         <h2>Generated Blog</h2>
-        {{ blog }}
+        {{ blog | safe }}
+
       </div>
     </div>
   </body>
 </html>
-
