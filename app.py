@@ -1,18 +1,31 @@
 import markdown
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-load_dotenv()
+# ✅ NEW
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
-print("🔥 RUNNING THIS app.py FILE 🔥")
+
+load_dotenv()
 
 app = Flask(__name__)
 
-# Configure GEMINI_API_KEY
+# ✅ SESSION SECRET
+app.secret_key = os.getenv("FLASK_SECRET", "change_this_secret")
+
+# ✅ RATE LIMITER
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["10 per minute"]
+)
+
+# ✅ Configure GEMINI_API_KEY safely
 genai.api_key = os.environ.get("GEMINI_API_KEY")
-# ✅ USE A KNOWN WORKING MODEL
+
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
     system_instruction="You are an expert professional blog writer."
@@ -49,29 +62,28 @@ Guidelines:
 
 
 def generate_blog(prompt: str) -> str:
-    print("🟡 SENDING PROMPT TO GEMINI...")
-    print(prompt)
-
     response = model.generate_content(prompt)
 
-    # ✅ HARD VALIDATION (NO SILENT FAILURES)
-    if not response:
-        raise RuntimeError("Gemini returned no response")
+    if not response or not hasattr(response, "text") or not response.text:
+        raise RuntimeError("Gemini returned empty response")
 
-    if not hasattr(response, "text") or not response.text:
-        raise RuntimeError("Gemini response text is empty")
-
-    print("🟢 GEMINI RESPONSE RECEIVED")
     return response.text.strip()
 
 
 @app.route("/", methods=["GET", "POST"])
+@limiter.limit("3 per minute")
 def index():
     blog = ""
 
+    # ✅ SESSION CONTROL
+    if "count" not in session:
+        session["count"] = 0
+
     if request.method == "POST":
-        print("📥 FORM SUBMITTED")
-        print("RAW FORM DATA:", request.form)
+        session["count"] += 1
+
+        if session["count"] > 5:
+            return "Too many requests. Please wait a minute and refresh."
 
         data = {
             "topic": request.form.get("topic", "").strip(),
@@ -82,8 +94,6 @@ def index():
             "keywords": request.form.get("keywords", "").strip(),
         }
 
-        print("📦 PARSED DATA:", data)
-
         if not data["topic"]:
             blog = "❌ ERROR: Topic is required."
         else:
@@ -93,7 +103,6 @@ def index():
                 blog = markdown.markdown(raw_blog)
 
             except Exception as e:
-                print("🔴 ERROR:", e)
                 blog = f"❌ Blog generation failed: {str(e)}"
 
     return render_template("index.html", blog=blog)
@@ -101,4 +110,3 @@ def index():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
